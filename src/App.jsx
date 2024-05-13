@@ -1,15 +1,26 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import Search from './components/Search';
-import Jobs from './components/Jobs';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import FindJobs from './pages/FindJobs';
+import CompaniesPage from './pages/CompaniesPage';
+import NotFoundPage from './pages/NotFoundPage';
+import AddJobPage from './pages/AddJobPage';
 
 const App = () => {
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path='/' >
+        <Route index element={<FindJobs />} />
+        <Route path='/companies' element={<CompaniesPage />} />
+        <Route path='/add-job' element={<AddJobPage />} />
+        <Route path='*' element={<NotFoundPage />} />
+
+      </Route >
+    )
+  );
+
   return (
-    <div className='w-[95%] m-auto bg-white'>
-      <Navbar />
-      <Search />
-      <Jobs />
-    </div>
+    <RouterProvider router={router} />
   )
 }
 

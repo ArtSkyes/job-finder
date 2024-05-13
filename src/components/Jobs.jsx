@@ -1,6 +1,5 @@
 import React from 'react'
-import { BiTimeFive } from 'react-icons/bi';
-import logo_1 from '../assets/logo/logo_1.png';
+import logo_1 from '../assets/images/logo_1.png';
 
 const Jobs = () => {
     return (
@@ -11,17 +10,14 @@ const Jobs = () => {
                 hover:bg-blueColor shadow-lg shadow-greyIsh-400/700 hover:shadow-lg'>
 
                     <span className='flex justify-between items-center gap-4'>
-                        <h1 className='text-[16px] font-semibold text-textColor group-hover:text-white'>
+                        <h1 className='text-[20px] font-semibold text-textColor group-hover:text-white'>
                             Web Developer
                         </h1>
-
-                        <span className='flex items-center text-[#ccc] gap-1'>
-                            <BiTimeFive />Now
-                        </span>
-
                     </span>
 
-                    <h6 className='text-[#ccc]'>Canada</h6>
+                    <h6 className='text-[#ccc] text-[15px]'>Internship Level</h6>
+
+                    <h6 className='text-[#ccc] text-[14px]'>Full-Time</h6>
 
                     <p className='text-[13px] text-[#959595] pt-[20px] border-t-[2px] mt-[20px] group-hover:text-white'>
                         WireCast Go is a leading technology company based in Canada, specializing in web development, digital marketing, and software solutions.

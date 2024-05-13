@@ -1,6 +1,5 @@
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
 import { BsHouseDoor } from 'react-icons/bs';
-import { CiLocationOn } from 'react-icons/ci';
 
 const Search = () => {
     return (
@@ -23,13 +22,6 @@ const Search = () => {
                         <AiOutlineCloseCircle className='text-[30px] text-[#a5a6a6] hover:text-textColor icon' />
                     </div>
 
-                    <div className='flex gap-2 items-center'>
-                        <CiLocationOn className='text-[25px] icon' />
-                        <input type="text" className='bg-transparent text-blue-500 focus:outline-none w-[100%]'
-                            placeholder='Search By Location...' />
-                        <AiOutlineCloseCircle className='text-[30px] text-[#a5a6a6] hover:text-textColor icon' />
-                    </div>
-
                     <button className='bg-blueColor h-full p-5 px-10 rounded-[10px] text-white 
                     cursor-pointer hover:bg-blue-300'>Search</button>
 
@@ -39,16 +31,14 @@ const Search = () => {
 
             <div className='secDiv flex items-center gap-10 justify-center'>
 
-
-
                 <div className='singleSearch flex items-center gap-2'>
                     <label htmlFor='type' className='text-[#808080] font-semibold'> Type:</label>
 
                     <select name="relevance" id="type" className='bg-white rounded-[3px] px-4 py-1'>
                         <option value="">Full-time</option>
-                        <option value="">Remote</option>
-                        <option value="">Contract</option>
                         <option value="">Part-time</option>
+                        <option value="">Internship</option>
+                        <option value="">Contract</option>
                     </select>
                 </div>
 
@@ -60,14 +50,11 @@ const Search = () => {
                     <select name="relevance" id="level" className='bg-white rounded-[3px] px-4 py-1'>
                         <option value="">Senior</option>
                         <option value="">Mid-Senior</option>
+                        <option value="">Associate</option>
                         <option value="">Entry</option>
-                        <option value="">Internship</option>
                     </select>
                 </div>
 
-                <span className='text-[#a1a1a1] cursor-pointer'>
-                    Clear All
-                </span>
 
             </div>
         </div>
