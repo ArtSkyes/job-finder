@@ -12,13 +12,17 @@ body {
     background-color: white;
 }
 
-li {
+.active {
+    color: #2a68ff;
+}
+
+.linkClass {
     list-style: none;
     cursor: pointer;
     position: relative;
 }
 
-li:hover::before {
+.linkClass:hover::before {
     position: absolute;
     content: '';
     height: 4px;

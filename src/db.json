@@ -1,31 +1,60 @@
 {
-    "jobs": [
-        {
-            "id": 1,
-            "image": "logo_1",
-            "title": "Web Developer",
-            "time": "Now",
-            "location": "Canada",
-            "description": "XYZ Tech Solutions is a leading technology company based in Canada, specializing in web development, digital marketing, and software solutions. We are seeking a talented and passionate Web Developer to join our dynamic team.",
-            "company": "WireCast Go"
-        },
-        {
-            "id": 2,
-            "image": "logo_2",
-            "title": "Web Developer",
-            "time": "Now",
-            "location": "Canada",
-            "description": "XYZ Tech Solutions is a leading technology company based in Canada, specializing in web development, digital marketing, and software solutions. We are seeking a talented and passionate Web Developer to join our dynamic team.",
-            "company": "WireCast Go"
-        },
-        {
-            "id": 3,
-            "image": "logo_3",
-            "title": "Web Developer",
-            "time": "Now",
-            "location": "Canada",
-            "description": "XYZ Tech Solutions is a leading technology company based in Canada, specializing in web development, digital marketing, and software solutions. We are seeking a talented and passionate Web Developer to join our dynamic team.",
-            "company": "WireCast Go"
-        }
-    ]
+  "jobs": [
+    {
+      "id": 1,
+      "title": "Web Developer",
+      "level": "Senior Level",
+      "type": "Full-Time",
+      "description": "XYZ Tech Solutions is a leading technology company based in Canada, specializing in web development, digital marketing, and software solutions. We are seeking a talented and passionate Web Developer to join our dynamic team.",
+      "company": "WireCast Go"
+    },
+    {
+      "id": 2,
+      "title": "Software Engineer",
+      "level": "Mid-Senior Level",
+      "type": "Full-Time",
+      "description": "InnovateTech is an American software company that develops cutting-edge solutions for the healthcare industry. We are looking for a dedicated Software Engineer to enhance our product offerings and drive innovation.",
+      "company": "InnovateTech"
+    },
+    {
+      "id": 3,
+      "title": "Data Analyst",
+      "level": "Internship",
+      "type": "Full-Time",
+      "description": "DataDriven Insights, a leader in data analytics and business intelligence, based in the UK, is seeking a skilled Data Analyst to help transform data into actionable insights for our clients across various industries.",
+      "company": "DataDriven Insights"
+    },
+    {
+      "id": 4,
+      "title": "Project Manager",
+      "level": "Entry Level",
+      "type": "Contract",
+      "description": "ProjectPro Services is a renowned project management firm in Australia, specializing in construction and IT projects. We are currently seeking an experienced Project Manager to lead our upcoming projects and ensure their successful delivery.",
+      "company": "ProjectPro Services"
+    },
+    {
+      "id": 5,
+      "title": "UX/UI Designer",
+      "level": "Mid-Senior Level",
+      "type": "Part-Time",
+      "description": "CreativeDesigns GmbH is a top-tier design studio in Germany, focusing on creating seamless user experiences for mobile and web applications. We are in search of a creative UX/UI Designer to join our team and elevate our design capabilities.",
+      "company": "Creative Designs"
+    },
+    {
+      "id": "876d",
+      "title": "testt",
+      "level": "Senior Level",
+      "type": "Full-Time",
+      "description": "test",
+      "company": "test"
+    },
+    {
+      "id": "3aba",
+      "title": "Yes Man",
+      "level": "Senior Level",
+      "type": "Part-Time",
+      "description": "Art's company is my company!",
+      "company": "Art's Company"
+    }
+  ]
 }
