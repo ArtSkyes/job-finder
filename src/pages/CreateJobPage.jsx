@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { JobsContext } from '../contexts/JobContext';

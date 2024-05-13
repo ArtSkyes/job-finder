@@ -25,35 +25,15 @@ export const JobsProvider = ({ children }) => {
             .catch(error => console.error('Error adding jobs:', error));
     };
 
-    const updateJobs = (id, updatedJobs) => {
-        fetch(`/api/jobs/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedJobs),
-        })
-            .then(response => response.json())
-            .then(() => {
-                const updatedJobs = jobs.map(jobs => jobs.id === id ? updatedJobs : jobs);
-                setJobs(updatedJobs);
-            })
-            .catch(error => console.error('Error updating jobs:', error));
-    };
-
-    const deleteJobs = (id) => {
-        fetch(`/api/jobs/${id}`, {
+    const deleteJob = async (id) => {
+        const res = await fetch(`/api/jobs/${id}`, {
             method: 'DELETE',
-        })
-            .then(() => {
-                const filteredJobs = jobs.filter(jobs => jobs.id !== id);
-                setJobs(filteredJobs);
-            })
-            .catch(error => console.error('Error deleting jobs:', error));
+        });
+        setJobs(jobs.filter(job => job.id !== id));
     };
 
     return (
-        <JobsContext.Provider value={{ jobs, createJobs, updateJobs, deleteJobs }}>
+        <JobsContext.Provider value={{ jobs, createJobs, deleteJob }}>
             {children}
         </JobsContext.Provider>
     );
