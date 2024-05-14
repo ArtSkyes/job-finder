@@ -12,7 +12,7 @@ const FindJobsPage = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('/api/jobs')
+        fetch('/https://json-server-vercel-sooty-two.vercel.app//jobs')
             .then(response => response.json())
             .then(data => {
                 setJobs(data);
