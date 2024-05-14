@@ -6,14 +6,14 @@ export const JobsProvider = ({ children }) => {
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
-        fetch('/api/jobs')
+        fetch('/https://json-server-vercel-sooty-two.vercel.app//jobs')
             .then(response => response.json())
             .then(data => setJobs(data))
             .catch(error => console.error('Error fetching jobs:', error));
     }, []);
 
     const createJobs = async (newJob) => {
-        const res = await fetch('/api/jobs', {
+        const res = await fetch('/https://json-server-vercel-sooty-two.vercel.app//jobs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export const JobsProvider = ({ children }) => {
     };
 
     const deleteJob = async (id) => {
-        const res = await fetch(`/api/jobs/${id}`, {
+        const res = await fetch(`/https://json-server-vercel-sooty-two.vercel.app//jobs/${id}`, {
             method: 'DELETE',
         });
         setJobs(jobs.filter(job => job.id !== id));
