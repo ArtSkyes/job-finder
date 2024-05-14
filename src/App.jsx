@@ -7,6 +7,7 @@ import MainLayout from './layout/MainLayout';
 import { JobsProvider } from './contexts/JobContext';
 
 const App = () => {
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<MainLayout />}>

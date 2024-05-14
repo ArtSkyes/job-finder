@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
 
-const Search = () => {
+const Search = ({ jobs, setFilteredJobs }) => {
     const [jobSearch, setJobSearch] = useState('');
     const [type, setType] = useState('Full-Time');
-    const [level, setLevel] = useState('Entry Level');
+    const [level, setLevel] = useState('Internship');
+    const [company, setCompany] = useState('');
+    const [title, setTitle] = useState('');
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
+        const filtered = jobs.filter(job =>
+            (jobSearch ? Object.values(job).some(val =>
+                val.toString().toLowerCase().includes(jobSearch.toLowerCase())
+            ) : true) &&
+            (company ? job.company === company : true) &&
+            (title ? job.title === title : true)
+        );
+        setFilteredJobs(filtered);
     };
 
-    const handleButtonClick = (setField) => {
+    useEffect(() => {
+        const filtered = jobs.filter(job =>
+            (type !== "All" ? job.type === type : true) &&
+            (level !== "All" ? job.level === level : true)
+        );
+        setFilteredJobs(filtered);
+    }, [type, level]);
+
+    const handleButtonClear = (setField) => {
         setField('');
     };
 
@@ -24,7 +42,7 @@ const Search = () => {
                         <input type="text" className='bg-transparent text-blue-500 focus:outline-none flex-grow w-full'
                             placeholder='Search Job Here...' value={jobSearch} onChange={(e) => setJobSearch(e.target.value)} />
                         <div className='w-[30px]'>
-                            {jobSearch && <AiOutlineCloseCircle className='text-[25px] text-[#a5a6a6] hover:text-textColor icon' onClick={() => handleButtonClick(setJobSearch)} />}
+                            {jobSearch && <AiOutlineCloseCircle className='text-[25px] text-[#a5a6a6] hover:text-textColor icon' onClick={() => handleButtonClear(setJobSearch)} />}
                         </div>
                     </div>
 
@@ -42,6 +60,7 @@ const Search = () => {
                     <label htmlFor='type' className='text-[#808080] font-semibold'> Type:</label>
 
                     <select id="type" name="relevance" className='bg-white rounded-[3px] px-4 py-1' value={type} onChange={(e) => setType(e.target.value)}>
+                        <option value="All">All</option>
                         <option value="Full-Time">Full-Time</option>
                         <option value="Part-Time">Part-Time</option>
                         <option value="Contract">Contract</option>
@@ -54,6 +73,7 @@ const Search = () => {
                     </label>
 
                     <select name="relevance" id="level" className='bg-white rounded-[3px] px-4 py-1' value={level} onChange={(e) => setLevel(e.target.value)}>
+                        <option value="All">All</option>
                         <option value="Senior Level">Senior Level</option>
                         <option value="Mid-Senior Level">Mid-Senior Level</option>
                         <option value="Entry Level">Entry Level</option>
