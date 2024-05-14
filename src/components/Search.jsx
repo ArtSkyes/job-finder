@@ -3,8 +3,8 @@ import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
 
 const Search = ({ jobs, setFilteredJobs }) => {
     const [jobSearch, setJobSearch] = useState('');
-    const [type, setType] = useState('Full-Time');
-    const [level, setLevel] = useState('Internship');
+    const [type, setType] = useState('All');
+    const [level, setLevel] = useState('All');
     const [company, setCompany] = useState('');
     const [title, setTitle] = useState('');
 
