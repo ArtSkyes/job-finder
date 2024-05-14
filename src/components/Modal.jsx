@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { toast } from 'react-toastify';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { JobsContext } from '../contexts/JobContext';
 
 const Modal = ({ job, closeModal }) => {
     const { id } = useParams();
-    const { deleteJob, jobs, setJobs } = useContext(JobsContext);
-    const navigate = useNavigate();
+    const { deleteJob } = useContext(JobsContext);
 
     const onDeleteClick = async (jobId) => {
         const confirm = window.confirm('Are you sure you want to delete this job?');

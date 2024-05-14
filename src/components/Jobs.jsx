@@ -4,16 +4,14 @@ import Modal from './Modal';
 const Jobs = ({ jobs }) => {
 
     const [selectedJob, setSelectedJob] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [descriptionState, setDescriptionState] = useState({});
 
     const openModal = (job) => {
         setSelectedJob(job);
-        setIsModalOpen(true);
     };
 
     const closeModal = () => {
-        setIsModalOpen(false);
+        setSelectedJob(null);
     };
 
     const handleDescriptionClick = (job) => {
@@ -70,7 +68,7 @@ const Jobs = ({ jobs }) => {
                     )
                 })}
             </div>
-            {isModalOpen && <Modal job={selectedJob} closeModal={closeModal} />}
+            {selectedJob && <Modal job={selectedJob} closeModal={closeModal} />}
         </div>
     )
 }
