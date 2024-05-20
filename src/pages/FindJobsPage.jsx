@@ -3,6 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Search from '../components/Search';
 import Jobs from '../components/Jobs';
 import Spinner from '../components/Spinner';
+import { config } from '../services/config';
 
 const FindJobsPage = () => {
 
@@ -12,7 +13,7 @@ const FindJobsPage = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('https://json-server-vercel-sooty-two.vercel.app/jobs')
+        fetch(`${config.API_URL}/jobs`)
             .then(response => response.json())
             .then(data => {
                 setJobs(data);
