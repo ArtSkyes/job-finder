@@ -1,42 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '../components/Search';
 import Jobs from '../components/Jobs';
 import Spinner from '../components/Spinner';
 import { config } from '../services/config';
 
+const fetchJobs = async () => {
+    const response = await fetch(`${config.API_URL}/jobs`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch jobs');
+    }
+    return response.json();
+};
+
 const FindJobsPage = () => {
+    const { data: jobs, isLoading, error } = useQuery({
+        queryKey: ['jobs'],
+        queryFn: fetchJobs
+    });
+    const [filteredJobs, setFilteredJobs] = React.useState([]);
 
-    const [jobs, setJobs] = useState([]);
-    const [filteredJobs, setFilteredJobs] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(true);
-        fetch(`${config.API_URL}/jobs`)
-            .then(response => response.json())
-            .then(data => {
-                setJobs(data);
-                setFilteredJobs(data);
-            })
-            .catch(error => {
-                console.error("Error fetching jobs: ", error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }, []);
+    if (isLoading) return <Spinner />;
+    if (error) return <div>Error fetching jobs: {error.message}</div>;
 
     return (
         <>
-            {loading ? <Spinner /> : (
-                <>
-                    <Search jobs={jobs} setFilteredJobs={setFilteredJobs} />
-                    <Jobs jobs={filteredJobs} />
-                </>
-            )}
+            <Search jobs={jobs} setFilteredJobs={setFilteredJobs} />
+            <Jobs jobs={filteredJobs.length > 0 ? filteredJobs : jobs} />
         </>
-    )
+    );
 }
 
 export default FindJobsPage;

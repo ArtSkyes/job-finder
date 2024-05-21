@@ -5,6 +5,8 @@ import NotFoundPage from './pages/NotFoundPage';
 import CreateJobPage from './pages/CreateJobPage';
 import MainLayout from './layout/MainLayout';
 import { JobsProvider } from './contexts/JobContext';
+import { ThemeProvider } from '@mui/material/styles';
+import themes from './assets/theme/themes';
 
 const App = () => {
 
@@ -20,7 +22,9 @@ const App = () => {
 
   return (
     <JobsProvider>
-      <RouterProvider router={router} />
+      <ThemeProvider theme={themes}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </JobsProvider>
   )
 }
