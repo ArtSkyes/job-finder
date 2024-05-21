@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, useMediaQuery, useTheme, IconButton, Drawer } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import logo from '../assets/images/logo.png';
 
 const Navbar = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
     const linkStyle = {
         fontFamily: 'Poppins, sans-serif',
         color: '#6f6f6f',
@@ -15,25 +20,55 @@ const Navbar = () => {
         }
     };
 
+    const handleDrawerToggle = () => {
+        setDrawerOpen(!drawerOpen);
+    };
+
     return (
-        <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: (theme) => `5px rounded ${theme.palette.divider}`, bgcolor: 'white', padding: '10px' }}>
+        <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: `1px solid ${theme.palette.divider}`, bgcolor: 'white', padding: '10px' }}>
             <Toolbar sx={{ flexWrap: 'wrap' }}>
                 <NavLink to="/" style={{ textDecoration: 'none' }}>
-                    <Typography variant="h5" color="primary" noWrap sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="h6" color="primary" noWrap sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
                         <img src={logo} alt="Job Finder" style={{ height: '40px', marginRight: '10px' }} />
-                        <strong>Job</strong>Finder
+                        JobFinder
                     </Typography>
                 </NavLink>
-                <div style={{ marginLeft: 'auto' }}>
-                    <nav>
-                        <Button variant="navbar" component={NavLink} to="/" sx={linkStyle} style={{ textDecoration: 'none' }}>
-                            Find Jobs
-                        </Button>
-                        <Button variant="navbar" component={NavLink} to="/create-job" sx={linkStyle} style={{ textDecoration: 'none' }}>
-                            Create Job
-                        </Button>
-                    </nav>
-                </div>
+                <Box sx={{ marginLeft: 'auto', display: { xs: 'none', md: 'flex' } }}>
+                    <Button component={NavLink} to="/" sx={linkStyle}>
+                        Find Jobs
+                    </Button>
+                    <Button component={NavLink} to="/create-job" sx={linkStyle}>
+                        Create Job
+                    </Button>
+                </Box>
+                {isMobile && (
+                    <>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ ml: 'auto' }}
+                            onClick={handleDrawerToggle}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Drawer
+                            anchor="right"
+                            open={drawerOpen}
+                            onClose={handleDrawerToggle}
+                        >
+                            <Box sx={{ width: 150, p: 3 }}>
+                                <Button component={NavLink} to="/" sx={linkStyle}>
+                                    Find Jobs
+                                </Button><br />
+                                <Button component={NavLink} to="/create-job" sx={linkStyle}>
+                                    Create Job
+                                </Button>
+                            </Box>
+                        </Drawer>
+                    </>
+                )}
             </Toolbar>
         </AppBar>
     );

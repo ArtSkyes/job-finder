@@ -1,26 +1,11 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import Modal from './Modal';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Spinner from './Spinner';
-import { config } from '../services/config';
 
-const fetchJobs = async () => {
-    const response = await fetch(`${config.API_URL}/jobs`);
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-};
-
-const Jobs = () => {
-    const { data: jobs, isLoading, error } = useQuery({
-        queryKey: ['jobs'],
-        queryFn: fetchJobs
-    });
+const Jobs = ({ jobs }) => {
     const [selectedJob, setSelectedJob] = useState(null);
     const [descriptionState, setDescriptionState] = useState({});
 
@@ -39,8 +24,7 @@ const Jobs = () => {
         }));
     };
 
-    if (isLoading) return <Spinner />;
-    if (error) return <div>Error: {error.message}</div>;
+
 
     return (
         <div>
