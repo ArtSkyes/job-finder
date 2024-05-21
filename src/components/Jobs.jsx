@@ -1,8 +1,26 @@
 import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Modal from './Modal';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Spinner from './Spinner';
+import { config } from '../services/config';
 
-const Jobs = ({ jobs }) => {
+const fetchJobs = async () => {
+    const response = await fetch(`${config.API_URL}/jobs`);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+};
 
+const Jobs = () => {
+    const { data: jobs, isLoading, error } = useQuery({
+        queryKey: ['jobs'],
+        queryFn: fetchJobs
+    });
     const [selectedJob, setSelectedJob] = useState(null);
     const [descriptionState, setDescriptionState] = useState({});
 
@@ -21,56 +39,46 @@ const Jobs = ({ jobs }) => {
         }));
     };
 
+    if (isLoading) return <Spinner />;
+    if (error) return <div>Error: {error.message}</div>;
+
     return (
         <div>
-            <div className="jobContainer flex gap-10 justify-center flex-wrap items-center py-10">
+            <div className="flex flex-wrap justify-center gap-10 py-10 items-start">
                 {jobs.map((job) => {
                     let description = job.description;
-
                     if (!descriptionState[job.id]) {
                         description = description.substring(0, 90) + '...';
                     }
 
                     return (
-                        <div className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] 
-                        hover:bg-blue-800 shadow-lg shadow-greyIsh-400/700 hover:shadow-lg flex flex-col' key={job.id}>
-
-                            <span className='flex justify-between items-center gap-4'>
-                                <h1 className='text-[18px] font-semibold text-textColor group-hover:text-white'>
+                        <Card key={job.id} className="group group/item singleJob w-[250px] p-[5px] bg-white rounded-[10px] hover:bg-blue-800 flex flex-col" elevation={3}>
+                            <CardContent>
+                                <Typography variant="h6" component="div" className="text-[18px] text-textColor group-hover:text-white font-bold">
                                     {job.company}
-                                </h1>
-                            </span>
-
-                            <h5 className='text-[#ccc] '>{job.level}</h5>
-
-                            <h6 className='text-[#ccc] '>{job.type}</h6>
-
-                            <p className='text-[13px] text-[#959595] pt-[20px] border-t-[2px] mt-[20px] group-hover:text-white mb-auto'>
-                                {description}
-                            </p>
-
-                            <button onClick={() => handleDescriptionClick(job)} className='text-[15px] text-left text-blue-400 mt-2 mb-2 hover:text-blue-500'>
-                                {descriptionState[job.id] ? 'Less' : 'More'}
-                            </button>
-
-                            <div className='company flex items-center gap-2'>
-                                <span className='text-[15px] font-semibold py-[1rem] block group-hover:text-white'>
+                                </Typography>
+                                <Typography variant="h7" className="text-[#ccc] pb-4">{job.level}</Typography><br />
+                                <Typography variant="h8" className="text-[#ccc] pb-4">{job.type}</Typography>
+                                <Typography variant="body2" className="text-[13px] text-[#959595] pt-[20px] border-t-[2px] mt-[20px]  group-hover:text-white mb-auto">
+                                    {description}
+                                    <Button size="small" onClick={() => handleDescriptionClick(job)} className="text-[15px] text-left text-blue-400 mt-2 mb-2 hover:text-blue-500" aria-label="Toggle Description">
+                                        {descriptionState[job.id] ? 'Less' : 'More'}
+                                    </Button>
+                                </Typography>
+                                <Typography variant="title" className='items-center gap-2 text-[15px] font-extrabold py-[1rem] block group-hover:text-white'>
                                     {job.title}
-                                </span>
-                            </div>
-
-                            <button onClick={() => openModal(job)} className='border-[2px] rounded-[10px] text-center block p-[10px] w-full text-[14px] font-semibold text-textColor 
-                            hover:bg-blue-700 group-hover/item:text-textColor group-hover:text-white'>
-                                Learn More
-                            </button>
-
-                        </div>
-                    )
+                                </Typography>
+                                <Button variant="contained" onClick={() => openModal(job)} className="border-[2px] rounded-[10px] text-center block p-[10px] w-full group-hover:text-white" aria-label="Learn More About Job">
+                                    Learn More
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    );
                 })}
             </div>
             {selectedJob && <Modal job={selectedJob} closeModal={closeModal} />}
         </div>
-    )
+    );
 }
 
 export default Jobs;

@@ -1,29 +1,42 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import logo from '../assets/images/logo.png';
 
 const Navbar = () => {
-    const location = useLocation();
-
-    const linkClass = ({ isActive }) => isActive ? 'text-[#6f6f6f] hover:text-blueColor-400 active' : 'text-[#6f6f6f] hover:text-blueColor-600';
+    const linkStyle = {
+        fontFamily: 'Poppins, sans-serif',
+        color: '#6f6f6f',
+        '&:hover': {
+            color: '#2a68ff',
+        },
+        '&.active': {
+            color: '#2a68ff',
+        }
+    };
 
     return (
-        <div className='navBar flex justify-between items-center p-5'>
-            <div className="logoDiv">
-                <div className="logoDiv">
-                    <NavLink className="logo text-[25px] text-blueColor flex items-center">
-                        <img className="h-10 w-auto mr-2" src={logo} alt="Job Finder" />
+        <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: (theme) => `5px rounded ${theme.palette.divider}`, bgcolor: 'white', padding: '10px' }}>
+            <Toolbar sx={{ flexWrap: 'wrap' }}>
+                <NavLink to="/" style={{ textDecoration: 'none' }}>
+                    <Typography variant="h5" color="primary" noWrap sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+                        <img src={logo} alt="Job Finder" style={{ height: '40px', marginRight: '10px' }} />
                         <strong>Job</strong>Finder
-                    </NavLink>
+                    </Typography>
+                </NavLink>
+                <div style={{ marginLeft: 'auto' }}>
+                    <nav>
+                        <Button variant="navbar" component={NavLink} to="/" sx={linkStyle} style={{ textDecoration: 'none' }}>
+                            Find Jobs
+                        </Button>
+                        <Button variant="navbar" component={NavLink} to="/create-job" sx={linkStyle} style={{ textDecoration: 'none' }}>
+                            Create Job
+                        </Button>
+                    </nav>
                 </div>
-            </div>
-
-            <div className="menu flex gap-8 text-[#6f6f6f] hover:text-blueColor" >
-                <NavLink to="/" className={`linkClass ${linkClass({ isActive: location.pathname === '/' })}`} >Find Jobs</NavLink>
-                <NavLink to="/create-job" className={`linkClass ${linkClass({ isActive: location.pathname === '/create-job' })}`}>Create Job</NavLink>
-            </div>
-        </div >
-    )
+            </Toolbar>
+        </AppBar>
+    );
 }
 
 export default Navbar;
