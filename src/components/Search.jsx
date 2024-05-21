@@ -1,9 +1,24 @@
 import React from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Grid } from '@mui/material';
+
+const schema = yup.object({
+    jobSearch: yup.string(),
+    type: yup.string(),
+    level: yup.string(),
+    company: yup.string(),
+    title: yup.string()
+});
 
 const Search = ({ jobs, setFilteredJobs }) => {
+    const queryClient = useQueryClient();
     const { register, handleSubmit, reset, watch } = useForm({
+        mode: 'onChange',
+        resolver: yupResolver(schema),
         defaultValues: {
             jobSearch: '',
             type: 'All',
@@ -13,34 +28,7 @@ const Search = ({ jobs, setFilteredJobs }) => {
         }
     });
 
-    const type = watch('type');
-    const level = watch('level');
-    const company = watch('company');
-    const title = watch('title');
-
-
-
-    React.useEffect(() => {
-        const filtered = jobs.filter(job =>
-            (type !== "All" ? job.type === type : true) &&
-            (level !== "All" ? job.level === level : true) &&
-            (company ? job.company === company : true) &&
-            (title ? job.title === title : true)
-        );
-        setFilteredJobs(filtered);
-    }, [type, level, company, title, jobs, setFilteredJobs]);
-
-    const onSearch = (data) => {
-        const { jobSearch, company, title } = data;
-        const filtered = jobs.filter(job =>
-            (jobSearch ? Object.values(job).some(val =>
-                val.toString().toLowerCase().includes(jobSearch.toLowerCase())
-            ) : true) &&
-            (company ? job.company === company : true) &&
-            (title ? job.title === title : true)
-        );
-        setFilteredJobs(filtered);
-    };
+    const jobSearch = watch('jobSearch');
 
     const handleButtonClear = () => {
         reset({
@@ -50,47 +38,81 @@ const Search = ({ jobs, setFilteredJobs }) => {
             company: '',
             title: ''
         });
+        queryClient.invalidateQueries(['filteredJobs']);
+        setFilteredJobs(jobs);
+    };
+
+    const handleFormSubmit = (data) => {
+        const filteredJobs = jobs.filter(job => {
+            return (
+                (data.jobSearch ? Object.values(job).some(val => typeof val === 'string' && val.toLowerCase().includes(data.jobSearch.toLowerCase())) : true) &&
+                (data.type !== "All" ? job.type === data.type : true) &&
+                (data.level !== "All" ? job.level === data.level : true) &&
+                (data.company ? job.company.toLowerCase().includes(data.company.toLowerCase()) : true) &&
+                (data.title ? job.title.toLowerCase().includes(data.title.toLowerCase()) : true)
+            );
+        });
+
+        setFilteredJobs(filteredJobs);
     };
 
     return (
-        <div className='searchDiv grid gap-10 bg-greyIsh rounded-[10px] p-[3rem]'>
-            <form onSubmit={handleSubmit(onSearch)}>
-                <div className="firstDiv flex justify-between items-center rounded-[8px] gap-[10px] bg-white p-5 shadow-lg shadow-greyIsh-700">
-                    <div className='flex gap-2 items-center p-5 w-full'>
-                        <AiOutlineSearch className='text-[25px] icon' />
-                        <input type="text" className='bg-transparent text-blue-500 focus:outline-none flex-grow w-full'
-                            placeholder='Search Job Here...' {...register('jobSearch')} />
-                        <div className='w-[30px]'>
-                            <AiOutlineCloseCircle className='text-[25px] text-[#a5a6a6] hover:text-textColor icon' onClick={handleButtonClear} />
-                        </div>
-                    </div>
-                    <button type="submit" className='bg-blueColor h-full p-5 px-10 rounded-[10px] text-white cursor-pointer hover:bg-blue-300'>
-                        Search
-                    </button>
-                </div>
+        <Box sx={{ p: 3, bgcolor: '#f1f4f8', borderRadius: 3, width: '100%', maxWidth: '800px', margin: '0 auto', display: 'flex', justifyContent: 'center' }}>
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
+                <Grid container spacing={2} alignItems="center" justifyContent="center" sx={{ p: 3, bgcolor: 'white', borderRadius: 3, boxShadow: 4 }}>                    <Grid item xs={12} sm={8} sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                    <AiOutlineSearch size={25} />
+                    <TextField
+                        fullWidth
+                        placeholder='Search Job Here...'
+                        {...register('jobSearch')}
+                    />
+                    {jobSearch && (
+                        <AiOutlineCloseCircle size={25} onClick={handleButtonClear} style={{ cursor: 'pointer', color: '#a5a6a6' }} />
+                    )}
+                </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <Button type="submit" variant="contained" color="primary" fullWidth>
+                            Search
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2} justifyContent="center" sx={{ mt: 2 }}>
+                    <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                            <InputLabel id="type-label">Type</InputLabel>
+                            <Select
+                                labelId="type-label"
+                                label="Type"
+                                {...register('type')}
+                                defaultValue="All"
+                            >
+                                <MenuItem value="All">All</MenuItem>
+                                <MenuItem value="Full-Time">Full-Time</MenuItem>
+                                <MenuItem value="Part-Time">Part-Time</MenuItem>
+                                <MenuItem value="Contract">Contract</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                            <InputLabel id="level-label">Level</InputLabel>
+                            <Select
+                                labelId="level-label"
+                                label="Level"
+                                {...register('level')}
+                                defaultValue="All"
+                            >
+                                <MenuItem value="All">All</MenuItem>
+                                <MenuItem value="Senior Level">Senior Level</MenuItem>
+                                <MenuItem value="Mid-Senior Level">Mid-Senior Level</MenuItem>
+                                <MenuItem value="Entry Level">Entry Level</MenuItem>
+                                <MenuItem value="Internship">Internship</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </Grid>
             </form>
-            <div className='secDiv flex items-center gap-10 justify-center'>
-                <div className='singleSearch flex items-center gap-2'>
-                    <label htmlFor='type' className='text-[#808080] font-semibold'> Type:</label>
-                    <select {...register('type')} className='bg-white rounded-[3px] px-4 py-1'>
-                        <option value="All">All</option>
-                        <option value="Full-Time">Full-Time</option>
-                        <option value="Part-Time">Part-Time</option>
-                        <option value="Contract">Contract</option>
-                    </select>
-                </div>
-                <div className='singleSearch flex items-center gap-2'>
-                    <label htmlFor='level' className='text-[#808080] font-semibold'> Level:</label>
-                    <select {...register('level')} className='bg-white rounded-[3px] px-4 py-1'>
-                        <option value="All">All</option>
-                        <option value="Senior Level">Senior Level</option>
-                        <option value="Mid-Senior Level">Mid-Senior Level</option>
-                        <option value="Entry Level">Entry Level</option>
-                        <option value="Internship">Internship</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+        </Box>
     );
 }
 

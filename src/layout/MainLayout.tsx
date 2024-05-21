@@ -3,14 +3,19 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../components/Navbar';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const MainLayout = () => {
     return (
-        <div className='w-[95%] m-auto bg-white'>
+        <>
+            <CssBaseline />
             <Navbar />
-            <Outlet />
-            <ToastContainer />
-        </div>
+            <Container maxWidth="lg">
+                <Outlet />
+                <ToastContainer />
+            </Container>
+        </>
     )
 }
 
