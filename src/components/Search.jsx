@@ -57,21 +57,22 @@ const Search = ({ jobs, setFilteredJobs }) => {
     };
 
     return (
-        <Box sx={{ p: 3, bgcolor: '#f1f4f8', borderRadius: 3, width: '100%', maxWidth: '800px', margin: '0 auto', display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ p: 3, bgcolor: '#f1f4f8', borderRadius: 3, width: '100%', maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'center' }}>
             <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <Grid container spacing={2} alignItems="center" justifyContent="center" sx={{ p: 3, bgcolor: 'white', borderRadius: 3, boxShadow: 4 }}>                    <Grid item xs={12} sm={8} sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <AiOutlineSearch size={25} />
-                    <TextField
-                        fullWidth
-                        placeholder='Search Job Here...'
-                        {...register('jobSearch')}
-                    />
-                    {jobSearch && (
-                        <AiOutlineCloseCircle size={25} onClick={handleButtonClear} style={{ cursor: 'pointer', color: '#a5a6a6' }} />
-                    )}
-                </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <Button type="submit" variant="contained" color="primary" fullWidth>
+                <Grid container spacing={1} alignItems="center" justifyContent="center" sx={{ p: 3, bgcolor: 'white', borderRadius: 3, boxShadow: 4, width: '100%' }}>
+                    <Grid item xs={12} sm={8} sx={{ display: 'flex', width: '100%', gap: 3, alignItems: 'center' }}>
+                        <AiOutlineSearch size={25} />
+                        <TextField
+                            fullWidth
+                            placeholder='Search Job Here...'
+                            {...register('jobSearch')}
+                        />
+                        {jobSearch && (
+                            <AiOutlineCloseCircle size={25} onClick={handleButtonClear} style={{ cursor: 'pointer', color: '#a5a6a6' }} />
+                        )}
+                    </Grid>
+                    <Grid item xs={12} sm={4} sx={{ alignItems: 'center', marginLeft: 'auto' }}>
+                        <Button type="submit" variant="contained" color="primary" size="large" fullWidth sx={{ width: '100%' }}>
                             Search
                         </Button>
                     </Grid>
